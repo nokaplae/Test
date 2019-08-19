@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>ログインページ</title>
 </head>
 <body>
-	로그인 페이징 입니다
+	ログインページです。
 </body>
 </html>

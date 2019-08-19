@@ -1,9 +1,11 @@
 package com.java.ex.command;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
 
@@ -13,12 +15,10 @@ import com.java.ex.dto.Member;
 public class JoinMemberService implements MemberCommand{
 
 	
-	
-	
-	
 	@Override
-	public void execute(Model model) {
+	public String execute(Model model) {
 		// TODO Auto-generated method stub
+		String view;
 		
 		MemberDao dao = new MemberDao();
 		
@@ -42,12 +42,21 @@ public class JoinMemberService implements MemberCommand{
 		Date birth = Date.valueOf(birthyy+"-"+birthmm+"-"+birthdd);
 		
 		Member member = new Member(id, pwd, name, katakana, birth);
+		
+		
 		int result = dao.joinDao(member);
 		
+		HttpSession session = request.getSession();
 		
-		model.addAttribute("id", member.getUser_id());
-		
-		
+		if(result == 1) {
+			session.setAttribute("userId", member.getUser_id());
+			view = "/login";
+		} else {
+			view = "/join";
+		}	
+	
+		return view;
+	
 		
 	}
 

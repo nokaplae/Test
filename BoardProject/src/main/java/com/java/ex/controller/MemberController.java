@@ -1,5 +1,7 @@
 package com.java.ex.controller;
 
+
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -7,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.java.ex.command.IdCheckMemberService;
 import com.java.ex.command.JoinMemberService;
 import com.java.ex.command.MemberCommand;
 
@@ -36,19 +39,34 @@ public class MemberController {
 		
 	}
 	
-	@RequestMapping(method=RequestMethod.POST, value="/joinRequest")
-	public String joinRequest(HttpServletRequest request, Model model) {
+	@RequestMapping(method=RequestMethod.GET, value = "/idcheck")
+	public String idcheck(HttpServletRequest request, Model model) {	
 		
-
+		String view = null;
 		model.addAttribute("request", request);
-		// 가입된 회원 아이디 가져옴
+		
+		command = new IdCheckMemberService();
+		view = command.execute(model);
+		
+		return view;
+		
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value="/joinRequest")
+	public String joinRequest(HttpServletRequest request, Model model)   {
+		
+		String view = null;
+		model.addAttribute("request", request);
+		// 加入情報を持ってくる。
 	
 		command = new JoinMemberService();
 
-		command.execute(model);
+
+		view = command.execute(model);
+	
 
 		
-		return "/login";
+		return view;
 		
 	}
 	

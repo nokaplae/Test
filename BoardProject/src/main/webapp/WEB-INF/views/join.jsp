@@ -4,7 +4,25 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
+<title>会員加入ページ</title>
+<script>
+
+	function idCheck() {
+		if(document.frm.userid.value=="") {
+			alert("アイディーを入力してください。")
+			document.frm.userid.focus();
+			return;		
+		}
+		
+		var url = "/ex/idcheck?userid="+document.frm.userid.value+"@"+document.frm.useremail.value;
+		window.open(url, "_blank_1",
+				"toolbar=no, menubar=no, scrollbars=yes, resizable=no,width=450, height=200");
+		
+		
+	}
+
+
+</script>
 </head>
 <body>
 	<%
@@ -12,17 +30,20 @@
 	%>
 
 
-	<form action = "<%=conPath %>/joinRequest" method="post">
+	<form action = "<%=conPath %>/joinRequest" method="post" name="frm">
 		<table>
 			<tr>
 				<td>アイディー : </td>
 				<td>
-					<input type="text" name = "user_email_1"></input>@
-					<select name = "user_email_2">
+					<input type="text" name = "user_email_1" id="userid"></input>@
+					<select name = "user_email_2" id="useremail">
 						<option>naver.com</option>
 						<option>gmail.com</option>
 						<option>daum.net</option>			
 					</select>
+				</td>
+				<td>
+					<input type="button" value="重複チェック" onclick="idCheck()">
 				</td>
 			
 			</tr>
