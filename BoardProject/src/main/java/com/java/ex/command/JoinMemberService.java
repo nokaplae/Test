@@ -50,7 +50,7 @@ public class JoinMemberService implements MemberCommand{
 		
 		if(result == 1) {
 			session.setAttribute("userId", member.getUser_id());
-			view = "/login";
+			view = "/board";
 		} else {
 			view = "/join";
 		}	

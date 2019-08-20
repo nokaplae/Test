@@ -7,6 +7,73 @@
 <title>会員加入ページ</title>
 <script>
 
+	function joinCheck() {
+		
+		/* IDチェック */
+		if(document.frm.userid.value.length==0) {
+			alert("アイディーを書いてください");
+			frm.userid.focus();
+			return false;
+		}	
+		
+		if(document.frm.userid.value.length < 4) {
+			alert("アイディーは４文字以上書いてください");
+			frm.userid.focus();
+			return false;
+		}	
+		
+		if(document.frm.reid.value.length==0) {
+			alert("重複チェックはしないです");
+			frm.userid.focus();
+			return false;
+		}
+		
+		/* パスワードチェック */
+		if(document.frm.pwd.value == "") {
+			alert("パスワードを書いてください");
+			frm.pwd.focus();
+			return false;
+		}	
+		
+		if(document.frm.pwd.value != document.frm.pwd_check.value) {
+			alert("パスワードは一致しないです");
+			frm.pwd.focus();
+			return false;
+		}	
+				
+		/* 年チェック */
+		if(document.frm.user_birthyy.value.length==0) {
+			alert("年を書いてください");
+			frm.user_birthyy.focus();
+			return false;
+		}
+		
+		/* 月チェック */
+		if(document.frm.user_birthmm.value == "") {
+			alert("月を選択ください");
+			frm.user_birthmm.focus();
+			return false;
+		}
+		
+		/* 日チェック */
+		if(document.frm.user_birthdd.value.length==0) {
+			alert("日を書いてください");
+			frm.user_birthdd.focus();
+			return false;
+		}　else {
+			
+			
+			
+		}
+		
+		
+		
+		
+		return true;
+		
+	}
+
+
 	function idCheck() {
 		if(document.frm.userid.value=="") {
 			alert("アイディーを入力してください。")
@@ -36,6 +103,7 @@
 				<td>アイディー : </td>
 				<td>
 					<input type="text" name = "user_email_1" id="userid"></input>@
+					<input type="hidden" name = "reid">
 					<select name = "user_email_2" id="useremail">
 						<option>naver.com</option>
 						<option>gmail.com</option>
@@ -51,9 +119,11 @@
 		</table>
 
 		
-		パスワード : <input type="password" name = "user_pw"></input>
-		名前(漢字) : <input type="text" name = "user_name"></input>
-		ふりがな(かたかな) : <input type="text" name = "user_katakana"></input>
+		パスワード : <input type="password" name = "pwd"></input> <br>
+		パスワード確認 : <input type="password" name = "pwd_check"></input> <br>
+		
+		名前(漢字) : <input type="text" name = "user_name"></input> <br>
+		ふりがな(かたかな) : <input type="text" name = "user_katakana"></input> <br>
 		<table>
 			<tr>
 				<td>誕生日 </td>
@@ -80,7 +150,7 @@
 
 		
 		</table>
-		<input type = "submit" value="加入する" ></input>
+		<input type = "submit" value="加入する" onclick="return joinCheck()"></input>
 		<input type = "reset" value="取り消し"></input>
 	</form>
 </body>

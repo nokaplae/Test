@@ -14,7 +14,7 @@ public class IdCheckMemberService implements MemberCommand {
 	public String execute(Model model) {
 
 		String view;
-		int result = -1;
+		boolean result;
 		
 		MemberDao dao = new MemberDao();
 		
