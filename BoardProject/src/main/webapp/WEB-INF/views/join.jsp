@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -29,15 +30,15 @@
 		}
 		
 		/* パスワードチェック */
-		if(document.frm.pwd.value == "") {
+		if(document.frm.user_pwd.value == "") {
 			alert("パスワードを書いてください");
-			frm.pwd.focus();
+			frm.user_pwd.focus();
 			return false;
 		}	
 		
-		if(document.frm.pwd.value != document.frm.pwd_check.value) {
+		if(document.frm.user_pwd.value != document.frm.pwd_check.value) {
 			alert("パスワードは一致しないです");
-			frm.pwd.focus();
+			frm.user_pwd.focus();
 			return false;
 		}	
 				
@@ -48,6 +49,7 @@
 			return false;
 		}
 		
+		
 		/* 月チェック */
 		if(document.frm.user_birthmm.value == "") {
 			alert("月を選択ください");
@@ -55,18 +57,13 @@
 			return false;
 		}
 		
+
 		/* 日チェック */
 		if(document.frm.user_birthdd.value.length==0) {
 			alert("日を書いてください");
 			frm.user_birthdd.focus();
 			return false;
-		}　else {
-			
-			
-			
-		}
-		
-		
+		}　
 		
 		
 		return true;
@@ -80,6 +77,12 @@
 			document.frm.userid.focus();
 			return;		
 		}
+		
+		if(document.frm.userid.value.length < 4) {
+			alert("アイディーは４文字以上書いてください");
+			frm.userid.focus();
+			return;
+		}	
 		
 		var url = "/ex/idcheck?userid="+document.frm.userid.value+"@"+document.frm.useremail.value;
 		window.open(url, "_blank_1",
@@ -102,12 +105,12 @@
 			<tr>
 				<td>アイディー : </td>
 				<td>
-					<input type="text" name = "user_email_1" id="userid"></input>@
+					<input type="text" name = "user_email_1" id="userid" value="${member.user_email_1 }" ></input>@
 					<input type="hidden" name = "reid">
 					<select name = "user_email_2" id="useremail">
-						<option>naver.com</option>
-						<option>gmail.com</option>
-						<option>daum.net</option>			
+						<option value="naver.com" <c:if test="${member.user_email_2 == naver.com}">selected</c:if>>naver.com</option>
+						<option value="gmail.com"<c:if test="${member.user_email_2 == 'gmail.com'}">selected</c:if>>gmail.com</option>
+						<option value="daum.net"<c:if test="${member.user_email_2 == 'daum.net'}">selected</c:if>>daum.net</option>			
 					</select>
 				</td>
 				<td>
@@ -119,7 +122,7 @@
 		</table>
 
 		
-		パスワード : <input type="password" name = "pwd"></input> <br>
+		パスワード : <input type="password" name = "user_pwd"></input> <br>
 		パスワード確認 : <input type="password" name = "pwd_check"></input> <br>
 		
 		名前(漢字) : <input type="text" name = "user_name"></input> <br>
@@ -129,7 +132,7 @@
 				<td>誕生日 </td>
 				<td>
 					<input type="text" name="user_birthyy" maxlength="4" placeholder="年（4席）"></input>
-					<select name = "user_birthmm">
+					<select name = "user_birthmm" >
 						<option value="">月</option>
 						<option value="01">1</option>
 						<option value="02">2</option>
