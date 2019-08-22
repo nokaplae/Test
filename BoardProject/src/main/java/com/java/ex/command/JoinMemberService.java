@@ -89,7 +89,7 @@ public class JoinMemberService implements MemberCommand{
 		System.out.println(birthdd);
 		Date birth = Date.valueOf(birthyy+"-"+birthmm+"-"+birthdd);
 		System.out.println("3");
-		//Member member = new Member(id, pwd, name, katakana, birth);
+
 		member.setUser_id(id);
 		member.setUser_birth(birth);
 		
@@ -100,9 +100,8 @@ public class JoinMemberService implements MemberCommand{
 		if(result == 1) {
 			//session.setAttribute("userId", member.getUser_id());
 			view = "/login";
-		} else {
-			view = "/joinError";
-		}	
+		} else view = "/joinError";
+
 	
 		return view;
 	

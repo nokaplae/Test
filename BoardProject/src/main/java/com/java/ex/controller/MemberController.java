@@ -74,11 +74,9 @@ public class MemberController {
 		validator.validate(member, result);
 		
 		
-		if(result.hasErrors()) {
+		if(result.hasErrors()) view = "/join";
 			
-			view = "/join";
-			
-		} else {
+		else {
 	
 			JoinMemberService joinCommand = new JoinMemberService();
 
