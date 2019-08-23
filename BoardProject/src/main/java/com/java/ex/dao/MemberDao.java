@@ -25,21 +25,23 @@ public class MemberDao {
 		int result = -1;
 		
 		if(conn.connect()==true) {
-			try {
+	
 				final PreparedStatement pstmt = conn.prepare(sql);
-				pstmt.setString(1, member.getUser_id());
-				pstmt.setString(2, member.getUser_pwd());
-				pstmt.setString(3, member.getUser_name());
-				pstmt.setString(4, member.getUser_katakana());
-				pstmt.setDate(5, member.getUser_birth());
+				
+				try {
+					pstmt.setString(1, member.getUser_id());
+					pstmt.setString(2, member.getUser_pwd());
+					pstmt.setString(3, member.getUser_name());
+					pstmt.setString(4, member.getUser_katakana());
+					pstmt.setDate(5, member.getUser_birth());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				
 				result = conn.executeUpdate(pstmt);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
+			}		
 		conn.close();
 
 		return result;
@@ -58,16 +60,19 @@ public class MemberDao {
 		
 		if(conn.connect()==true) {
 			
-			try {
+
 				final PreparedStatement pstmt = conn.prepare(sql);
 		
-				pstmt.setString(1, userid);
+				try {
+					pstmt.setString(1, userid);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				result = conn.executeQueryDup(pstmt);
 			
-			} catch(SQLException e) {	
-				e.printStackTrace();			
-			}
+			
 		} 
 		conn.close();
 		

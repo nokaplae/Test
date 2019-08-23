@@ -46,11 +46,17 @@ public class JdbcConnection {
 	}
 	
 	
-	public PreparedStatement prepare(String sql) throws SQLException {
+	public PreparedStatement prepare(String sql)  {
 		
 		if(this.conn == null) return null;
 			
-		return this.conn.prepareStatement(sql);
+		try {
+			return this.conn.prepareStatement(sql);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	
 	}
 	
