@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.java.ex.dto.Member;
@@ -15,7 +16,6 @@ public class JoinMemberValidator implements Validator{
 	public boolean supports(Class<?> arg0) {
 		// TODO Auto-generated method stub 
 		return Member.class.isAssignableFrom(arg0);
-		
 	}
 	
 	
@@ -31,38 +31,60 @@ public class JoinMemberValidator implements Validator{
 		String user_name = member.getUser_name();
 		String user_katakana = member.getUser_katakana();
 		String user_birthyy = member.getUser_birthyy();
-		String user_birtydd = member.getUser_birthdd();
+		String user_birthmm = member.getUser_birthmm();
+		String user_birthdd = member.getUser_birthdd();
 		
-	
-		// 名前を入力したらネームのスペースチェック
-		if(user_name.length()!=0) {	
-			if(user_name.trim().isEmpty()) {	
-				System.out.println("name empty");
-				errors.reject("name", "trouble");	
-			}	
-		}
-		
-		
-		// カタカナを入力したらカタカナのスペースチェック
-		if(user_katakana.length() != 0) {	
-			if(user_katakana.trim().isEmpty()) {	
-				System.out.println("katakana empty");
-				errors.reject("katakana", "trouble");	
-			}	
-		}
-
 		
 		
 		// パスワードの数字、特集文字、英字、スペース、長さをチェック
-		Pattern p = Pattern.compile("^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{5,15}$");
+		Pattern P = Pattern.compile("^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{5,15}$");
 		
-		Matcher m = p.matcher(user_pwd);
+		Matcher m = P.matcher(user_pwd);
 		
 		
 		if(m.find() == false) {
 			System.out.println("password alpha or special or number is not space");
 			errors.reject("password", "trouble");
 		} 	
+		
+		
+		
+		
+/*		if(user_name.length()!=0) {	
+			if(user_name.trim().isEmpty()) {	
+				System.out.println("name empty");
+				errors.reject("name", "required");	
+			}	
+		}*/
+		
+
+	
+		// 名前を入力したらネームのスペース及び漢字チェック
+		Pattern N = Pattern.compile("^[\u2e80-\u2eff\u31c0-\u31ef\u3200-\u32ff\u3400-\u4dbf\u4e00-\u9fbf\uf900-\ufaff]*$");
+		m = N.matcher(user_name);
+		
+		if(m.find() == false) {
+			System.out.println("chineseCharacter is not");
+			errors.reject("user_name", "trouble");
+		}
+		
+		
+				
+		// カタカナを入力したらカタカナのスペースチェック
+/*		if(user_katakana.length() != 0) {	
+			if(user_katakana.trim().isEmpty()) {	
+				System.out.println("katakana empty");
+				errors.reject("katakana", "required");	
+			}	
+		}*/
+		
+		
+		Pattern K = Pattern.compile("^[\u30A0-\u30FF]*$");
+		m = K.matcher(user_katakana);
+		if(m.find() == false) {
+			System.out.println("katakana is not");
+			errors.reject("user_katakana", "trouble");
+		}
 		
 		
 		// 生年月日の年の数字、スペース、長さチェック
@@ -72,34 +94,45 @@ public class JoinMemberValidator implements Validator{
 		int month = cal.get(cal.MONTH) + 1;
 		int date = cal.get(cal.DATE);
 		
-		int temp_int;
+		int temp_intyy;
+		int temp_intmm;
+		int temp_intdd;
 		
-		Pattern N = Pattern.compile("[0-9]{4}");
-		m= N.matcher(user_birthyy);
+		Pattern Y = Pattern.compile("[0-9]{4}");
+		m= Y.matcher(user_birthyy);
 		
 		// 入力した所が数字がない
 		if(m.find() == false) {
 			System.out.println("number not");
-			errors.reject("year", "trouble");
+			errors.reject("year", "required");
 		} 	
 		
-		temp_int = Integer.parseInt(user_birthyy);
+		temp_intyy = Integer.parseInt(user_birthyy);
 		
 		// 現在の年と比較
-		if(!(temp_int <= year-120 && temp_int >= year)) {
+		if(!(temp_intyy >= year-120 && temp_intyy <= year)) {
 			System.out.println("year not");
 			errors.reject("year", "trouble");
 			
 		}
 		
-		//　生年月日の日の数字、プランク、長さチェック
-		
-		
 		// 現在の月と比較
+		temp_intmm = Integer.parseInt(user_birthmm);
+		
+		if(temp_intmm > month) {
+			System.out.println("month not");
+			errors.reject("month", "trouble");
+		}
+
 		
 		
 		// 現在の日と比較
+		temp_intdd = Integer.parseInt(user_birthdd);
 		
+		if(temp_intdd >= 1 && temp_intdd <= date) {
+			System.out.println("date not");
+			errors.reject("date", "trouble");
+		}
 		
 		
 /*		for(int i=0; i<words.length; i++) {						

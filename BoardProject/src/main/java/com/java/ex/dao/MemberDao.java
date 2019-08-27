@@ -13,6 +13,75 @@ public class MemberDao {
 	
 	
 	/**
+	 * ログインした会員情報を持ってくる
+	 * @param member ユーザーのアイディー
+	 * @return 会員の情報
+	*/
+	public Member getMember(String userid) {
+		
+		
+		final JdbcConnection conn = new JdbcConnection();
+		final String sql = "select * from test.member where id=?";
+		
+		Member member = null;
+		
+		if(conn.connect()==true) {
+			
+			final PreparedStatement pstmt = conn.prepare(sql);
+			
+			try {
+				pstmt.setString(1, userid);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			member = conn.executeQueryMember(pstmt);
+		}
+		
+		conn.close();
+
+		return member;
+		
+	}
+	
+	
+	
+	
+	/**
+	 * ログインを行う
+	 * @param member ユーザーのアイディー、パスワード
+	 * @return ログイン成功、アイディーはあるけどパスワードは違う、アイディーがない
+	*/
+	public int userCheck(String userid, String pwd) {
+		final JdbcConnection conn = new JdbcConnection();
+		final String sql = "select pwd from test.member where id=?";
+		
+		int result = -1;
+		
+		
+		if(conn.connect()==true) {
+			
+			final PreparedStatement pstmt = conn.prepare(sql);
+			
+			try {
+				pstmt.setString(1, userid);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			result = conn.executeQueryLogin(pstmt, pwd);
+		}
+		
+		conn.close();
+
+		return result;
+		
+	}
+	
+	
+	/**
 	 * 会員登録処理を行う
 	 * @param member ユーザーの情報
 	 * @return DB上で更新されたレコードの数。1だったら成功

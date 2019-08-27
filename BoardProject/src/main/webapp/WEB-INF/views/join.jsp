@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"  %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -17,7 +19,6 @@
 	    document.frm[id].style.visibility = 'visible'; 
 	    document.frm[id].focus(); 
 	}
-
 	
 	//　IDを作る前の検査
 	function joinCheck() {
@@ -105,7 +106,6 @@
 			return false;
 		}
 		
-
 		/* 日の存在チェック */
 		if(document.frm.user_birthdd.value.length==0) {
 			alert("日を書いてください");
@@ -116,7 +116,6 @@
 		return true;
 		
 	}
-
 	// IDの重複チェック
 	function idCheck() {
 		// IDの存在チェック 
@@ -135,15 +134,12 @@
 		
 		// IDの含める文字チェック
 		var str = document.frm.userid.value;
-		var idReg = /^[a-zA-Z]+[a-z0-9A-Z]$/g;
-
+		var idReg = /^[A-Za-z0-9]*$/;
 		if(!idReg.test(str)) {
 			alert("IDは数字と英字だけ使用できます");
 			frm.userid.focus();
 			return;
 		}
-		
-		
 		
 		var url = "/ex/idcheck?userid="+document.frm.userid.value+"@"+document.frm.useremail.value;
 		window.open(url, "_blank_1",
@@ -151,8 +147,6 @@
 		
 		
 	}
-
-
 </script>
 </head>
 <body>
@@ -166,10 +160,10 @@
 			<tr>
 				<td>アイディー : </td>
 				<td>
-					<input type="text" name = "user_email_1" id="userid" value="${member.user_email_1 }" ></input>@
+					<input type="text" name = "user_email_1" id="userid" value="${member.user_email_1}" maxlength="15"></input>@
 					<input type="hidden" name = "reid">
 					<select name = "user_email_2" id="useremail">
-						<option value="naver.com" <c:if test="${member.user_email_2 == naver.com}">selected</c:if>>naver.com</option>
+						<option value="naver.com" <c:if test="${member.user_email_2 == 'naver.com'}">selected</c:if>>naver.com</option>
 						<option value="gmail.com"<c:if test="${member.user_email_2 == 'gmail.com'}">selected</c:if>>gmail.com</option>
 						<option value="daum.net"<c:if test="${member.user_email_2 == 'daum.net'}">selected</c:if>>daum.net</option>			
 					</select>

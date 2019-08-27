@@ -73,14 +73,12 @@ public class JdbcConnection {
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return -1;
 		}
 		
 		try{
 			if(pstmt!= null) pstmt.close();
 		} catch(SQLException e) {
 			e.printStackTrace();
-			return -1;
 		}
 		return result;
 		
@@ -99,7 +97,6 @@ public class JdbcConnection {
 				
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return result;
 		}
 		
 		try{
@@ -107,13 +104,43 @@ public class JdbcConnection {
 			if(pstmt!= null) pstmt.close();
 		} catch(SQLException e) {
 			e.printStackTrace();
-			return result;
 		}
 		return result;
 		
 	}
 	
+	public int executeQueryLogin(PreparedStatement pstmt, String pwd) {
+		int result = -1;
+
+		ResultSet rs = null;
+		
+		if(pstmt == null) return -1;
 	
+		try {	
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				if(rs.getString("pwd") != null && rs.getString("pwd").equals(pwd)) {
+					result = 1;
+				} else {
+					result = 0;
+				}  
+			} else {
+				result = -1;
+			}
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		try{
+			if(rs!=null) rs.close();
+			if(pstmt!= null) pstmt.close();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+		
+	}
 	
 	public Member executeQueryMember(PreparedStatement pstmt) {
 		

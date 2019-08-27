@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.java.ex.command.IdCheckMemberService;
-import com.java.ex.command.JoinMemberService;
-import com.java.ex.command.MemberCommand;
+import com.java.ex.command.*;
 import com.java.ex.dto.Member;
 
 @Controller
@@ -35,18 +33,32 @@ public class MemberController {
 		
 	}
 	
-	@RequestMapping("/joinError")
-	public String joinError() {
-		
-		return "/joinError";
-		
-	}
 	
 	@RequestMapping("/join")
 	public String join() {
 		
 		return "/join";
 		
+	}
+	
+	@RequestMapping("/board")
+	public String board() {
+		
+		return "/board";
+		
+	}
+	
+	
+	@RequestMapping(method=RequestMethod.POST, value ="/loginRequest")
+	public String loginRequest(HttpServletRequest request, Model model) {
+		String view;
+		
+		model.addAttribute("request", request);
+		
+		command = new LoginMemberService();
+		view = command.execute(model);
+		
+		return view;
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, value = "/idcheck")
@@ -65,7 +77,7 @@ public class MemberController {
 	@RequestMapping(method=RequestMethod.POST, value="/joinRequest")
 	public String joinRequest(@ModelAttribute("member")Member member, BindingResult result, Model model)   {
 		
-		
+		/*@ModelAttribute("member")Member member*/
 		
 		String view = "/join";
 		
