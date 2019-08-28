@@ -1,6 +1,7 @@
 package com.java.ex.command;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -64,7 +65,7 @@ public class JoinMemberService implements MemberCommand{
 	
 	public String execute(Member member) {
 		
-		System.out.println("1");
+
 		String view;
 		
 		MemberDao dao = new MemberDao();
@@ -84,17 +85,33 @@ public class JoinMemberService implements MemberCommand{
 		
 		String id = email_1+"@"+email_2;
 		
-		System.out.println("2");
-		System.out.println(birthyy);
-		System.out.println(birthdd);
-		Date birth = Date.valueOf(birthyy+"-"+birthmm+"-"+birthdd);
-		System.out.println("3");
+		
+		
+		int test = Integer.parseInt(birthdd);
+		
+		test = test + 1;
+		
+		birthdd = Integer.toString(test);
+		
+		
+		
+		if(birthdd.length() == 1) {
+			
+			birthdd = "0" + birthdd;
+		}
+		
+		
+		String bbirth = birthyy+"-"+birthmm+"-"+birthdd;
+
+		
+		Date birth = Date.valueOf(bbirth);
+		
 
 		member.setUser_id(id);
 		member.setUser_birth(birth);
 		
 		int result = dao.joinDao(member);
-		
+
 		//HttpSession session = request.getSession();
 		
 		if(result == 1) {

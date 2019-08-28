@@ -3,6 +3,7 @@ package com.java.ex.controller;
 
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,6 +47,28 @@ public class MemberController {
 		
 		return "/board";
 		
+	}
+	
+	@RequestMapping("/updateRequest")
+	public String updateRequest(HttpServletRequest request, Model model) {
+		String view;
+		model.addAttribute("request", request);
+		
+		command = new UpdateMemberService();
+		view = command.execute(model);
+		
+		
+		return view;
+		
+	}
+	
+	@RequestMapping(method=RequestMethod.GET, value ="/logoutRequest")
+	public String logoutRequest(HttpServletRequest request, Model model) {
+		String view = "/login";
+		
+		HttpSession session = request.getSession();
+		session.invalidate();
+		return view;
 	}
 	
 	

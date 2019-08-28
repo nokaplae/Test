@@ -10,7 +10,7 @@ import org.springframework.ui.Model;
 import com.java.ex.dao.MemberDao;
 import com.java.ex.dto.Member;
 
-public class LoginMemberService  implements MemberCommand{
+public class LoginMemberService implements MemberCommand{
 
 	@Override
 	public String execute(Model model) {
@@ -35,6 +35,8 @@ public class LoginMemberService  implements MemberCommand{
 		if(result == 1) {
 			System.out.println("ログイン成功");
 			Member member = dao.getMember(userid);
+			
+
 			HttpSession session = request.getSession();
 			session.setAttribute("loginUser", member);
 			

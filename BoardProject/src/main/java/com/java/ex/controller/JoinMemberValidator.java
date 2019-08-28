@@ -110,26 +110,26 @@ public class JoinMemberValidator implements Validator{
 		temp_intyy = Integer.parseInt(user_birthyy);
 		
 		// 現在の年と比較
-		if(!(temp_intyy >= year-120 && temp_intyy <= year)) {
+		if(!(temp_intyy >= year-120 && temp_intyy <= year-1)) {
 			System.out.println("year not");
 			errors.reject("year", "trouble");
 			
 		}
 		
 		// 現在の月と比較
-		temp_intmm = Integer.parseInt(user_birthmm);
+		/*temp_intmm = Integer.parseInt(user_birthmm);
 		
 		if(temp_intmm > month) {
 			System.out.println("month not");
 			errors.reject("month", "trouble");
 		}
-
+*/
 		
 		
 		// 現在の日と比較
 		temp_intdd = Integer.parseInt(user_birthdd);
 		
-		if(temp_intdd >= 1 && temp_intdd <= date) {
+		if(!(temp_intdd >= 1 && temp_intdd <= 31)) {
 			System.out.println("date not");
 			errors.reject("date", "trouble");
 		}
